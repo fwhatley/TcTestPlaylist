@@ -1,3 +1,12 @@
 h1 {
-    color:blue;
+    color:black;
+}
+
+body {
+    width:150px;
+    height: 100px;
+}
+
+#greating {
+    text-align: center;
 }

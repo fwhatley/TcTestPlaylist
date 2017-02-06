@@ -1,15 +1,14 @@
 <html>      
     <head>
-        <title>Hello world</title>
-        <script src="jquery-1.10.2.min.js"></script>
-        <script src="popup.js"></script>
+        <title>TC to MS Test Playlist</title>
         <link rel="stylesheet" type="text/css" href="popup.css"/>
     </head>
     <body>
-        <h1 id="greeting">Hi!</h1>
-        <input id="name" type="text">
-
-
-
+        <h3 id="greeting">TC Failed Tests to MS Test Playlist Builder</h3>
+        <p>Failed tests #: <span id="failedTestsNumber"></span></p>
+        <input id="download" type="submit" value="Download"/>
+        <script src="jquery-1.10.2.min.js"></script>
+        <script src="FileSaver.js"></script>
+        <script src="popup.js"></script>
     </body>
 </html>   
