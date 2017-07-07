@@ -10,15 +10,14 @@
     },
 
     "background": {
-        "scripts":["jquery-1.10.2.min.js","eventPage.js"],
+        "scripts":["jquery-1.10.2.min.js", "eventPage.js"],
         "persistent":false
     },
 
     "content_scripts":[
-        {
-            //"matches":["http://*/viewLog.html\\?buildId=*&tab=buildResultsDiv&buildTypeId=*"],
-            "matches": ["http://maltcs1.corp.flp/*"],
-            "js":["jquery-1.10.2.min.js","FileSaver.js","tcPage.js"]
+    {
+            "matches":["http://*/viewLog.html?buildId=*&tab=buildResultsDiv&buildTypeId=*"],
+            "js":["jquery-1.10.2.min.js", "underscore.js", "underscore.string.js", "FileSaver.js","tcPage.js"]
         }
     ],
 
