@@ -1,19 +1,71 @@
 $(function(){
 
     console.log("TC-ext: tcPage.js - load script");
+    var _failedTestSelector = '#tst_group_build_failRefreshInner .testList .testNamePart .testWithDetails span.hoverable';
 
-    // helpers
+    // HELPERS - MSG LISTENERS
+    var getSectionPath = function(section){
+        var path = section.innerText.replace(/\s/g, ''); // remove all whitespaces
+        path = path.replace(/TRX:/g, ''); // remove the TRX: from text
+        path = path.replace(/[(, 0-9 ,)]/g, ''); // remove the (#) from text
+        return path;
+    }
+
+
+    var getFailedTestSet = function(section){
+        console.log("TC-ext: tcPage.js - getting failed test set/section");
+        
+        var tableElement = $(section).next();
+        var testElementList = tableElement.find("span.hoverable");
+
+        // create each failed test text
+        var failedTests = [];
+        $(testElementList).each(function(){
+            failedTests.push($(this).text());
+        });
+
+        return failedTests;
+    };
+
     var getDate_YYYYMMDDHHMM = function(){
+        console.log("TC-ext: tcPage.js - building date");
         var date = new Date();
         var year = date.getFullYear();
-        var month = date.getMonth();
-        var day = date.getDay();
+        var month = date.getMonth() + 1; // want a 1-12 month
+        var day = date.getDate(); // 1 - 31
         var hr = date.getHours();
         var min = date.getMinutes();
-        var dateString = "" + year + month + day + hr + min;
+        var dateString = '' + year + '-' + month + '-' + day + '-H' + hr + '-M' + min;
         return dateString;
     };
 
+    var buildTestPlaylist = function(){
+        console.log("TC-ext: tcPage.js - building test playlist");
+
+        var sectionsSelector = "#tst_group_build_failRefreshInner .group-name";
+        var playlistText = "";
+        playlistText += '<Playlist Version="1.0">\r\n';
+        
+        $(sectionsSelector).each(function(){
+
+            var pathElement = this;
+            var sectionPath = getSectionPath(pathElement);
+            var failedTestSet = getFailedTestSet(pathElement);
+
+            failedTestSet.forEach(function(failedTest){
+                playlistText += '<Add Test="'; //todo: make this configurable
+                playlistText += sectionPath + ".";
+                playlistText += failedTest;
+                playlistText += '" />\r\n';
+            });
+
+        });
+        
+        playlistText += '</Playlist>';
+        return playlistText;
+    };
+
+    // MSG LISTENERS
     // listen to click on download event from extension icon
     console.log("TC-ext: tcPage.js - add 'download' listener");
     chrome.runtime.onMessage.addListener(function(request, sender, sendResponse){
@@ -21,15 +73,48 @@ $(function(){
             
             console.log("TC-ext: tcPage.js - downloading file...");
             
-            var text = $('p u').text();
+            var playlistText = buildTestPlaylist();
 
-            var blob = new Blob([text], {type: "text/plain;charset=utf-8"});
+            var blob = new Blob([playlistText], {type: "text/plain;charset=utf-8"});
             saveAs(blob, getDate_YYYYMMDDHHMM() + ".playlist");
 
         }
     });
 
-    console.log("TC-ext: tcPage.js - send 'show' action");
-    chrome.runtime.sendMessage({ action:"show" });
+    // HELPERS -  MSG SENDERS
+    var failedTestsExist = function(){
+        // test if any tests failed
+        var failCountString = $('span.failCount').text();
+        var faildCountStrings = failCountString.split(" ");
+        var failedSubString = 'failed'; // This is the text displayed in TC ie. 1 test failed.
+        var failedTestsExist = _.includes(faildCountStrings, failedSubString);
+        return failedTestsExist;
+    }
+
+    var getSolutionName = function(){
+        var solutionFolderStr = $('#idfailedDl div.group-name.exp').text(); // selecting the solution name if any test failed
+        solutionFolderStr = solutionFolderStr.replace(/\s/g,''); //http://stackoverflow.com/questions/6623231/remove-all-white-spaces-from-text
+        solutionFolderStr = solutionFolderStr.replace(/:/g, '.');
+        solutionFolderStr = solutionFolderStr.replace(/\(/g, '.');
+        solutionFolderStr = solutionFolderStr.replace(/\)/g, '.');
+        var nameList = solutionFolderStr.split('.');
+
+
+        var solutionName = nameList[1];
+        var folderName = nameList[2];
+        
+        var failCount = nameList[3];
+
+        return solutionName + '.' + folderName;
+    }
+
+    console.log("TC-ext: tcPage.js - the test solution name is: " + getSolutionName());
+
+    // MSG SENDERS
+    if (failedTestsExist) {
+        console.log("TC-ext: tcPage.js - send 'show' action");
+        chrome.runtime.sendMessage({ action:"show" });
+    }
+
 
 });
