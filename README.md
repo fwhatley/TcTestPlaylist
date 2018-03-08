@@ -1,6 +1,6 @@
 # TcTestPlaylist
 Downloads a MS Test Playlist built from the failed tests from TeamCity
-- Find it in the [https://chrome.google.com/webstore/detail/tc-to-ms-test-playlist/nommemlkcmjhehkfckhbljaehhhlghok](Chrome store)
+- Find it in the [Chrome store](https://chrome.google.com/webstore/detail/tc-to-ms-test-playlist/nommemlkcmjhehkfckhbljaehhhlghok)
 
 Set up dev env
-- read how to load an extension here [https://developer.chrome.com/extensions/getstarted](here)
+- read how to load an extension [here](https://developer.chrome.com/extensions/getstarted)
