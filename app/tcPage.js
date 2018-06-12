@@ -67,9 +67,9 @@ $(function(){
 
     // MSG LISTENERS
     // listen to click on download event from extension icon
-    console.log("TC-ext: tcPage.js - add 'download' listener");
+    console.log("TC-ext: tcPage.js - add 'downloadSeleniumTestsButton' listener");
     chrome.runtime.onMessage.addListener(function(request, sender, sendResponse){
-        if (request.action == "download") {
+        if (request.action == "downloadSeleniumTestsButton") {
             
             console.log("TC-ext: tcPage.js - downloading file...");
             

@@ -2,7 +2,7 @@
     "manifest_version": 2,
     "name": "TC to MS Test Playlist",
     "description": "Chrome extension to download a MS Test Playlist file built from the failed tests from TeamCity",
-    "version":"1.0.1",
+    "version":"1.0.2",
 
     "page_action":{
         "default_icon":"app/icon.png",
@@ -22,6 +22,5 @@
 
     "permissions":[
         "tabs"
-        //"http://maltcs1.corp.flp/*"
     ]
 }

@@ -1,13 +1,22 @@
 <html>      
     <head>
-        <title>TC to MS Test Playlist</title>
+        <title>TeamCity Test Playlist Builder</title>
         <link rel="stylesheet" type="text/css" href="popup.css"/>
     </head>
     <body>
-        <h3 id="greeting">TC Failed Tests to MS Test Playlist Builder</h3>
-        <p> There are some tests that failed. <span id="failedTestsNumber"></span></p>
-        <input id="download" type="submit" value="Download"/>
-        <p>For TeamCity Enterprise 2017.2.2 (build 50909)</p>
+        <h3 id="greeting">TeamCity Test Playlist Builder for Visual Studio</h3>
+        <p>This <a href="https://github.com/fwhatley/TcTestPlaylist/">extension</a> builds a test playlist for Visual Studio based on the failed tests that show up in the TeamCity test run page. To use it go to a specific test run page.</p>
+        
+
+        <p> There are some failing Selenium tests. <span id="failedTestsNumber"></span></p>
+        <input id="downloadSeleniumTestsButton" type="submit" value="Download"/>
+
+        </br>
+        <p> There are some failing API tests. <span id="failedTestsNumber"></span></p>
+        <input id="downloadSeleniumTestsButton" type="submit" value="Download"/>
+
+
+        <p><small>For TeamCity Enterprise 2017.2.2 (build 50909)</small></p>
         <script src="../lib/jquery-1.10.2.min.js"></script>
         <script src="../app/popup.js"></script>
     </body>
