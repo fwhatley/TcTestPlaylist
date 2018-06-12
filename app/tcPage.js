@@ -11,16 +11,15 @@ $(function(){
         return path;
     }
 
-
     var getFailedTestSet = function(section){
         console.log("TC-ext: tcPage.js - getting failed test set/section");
         
+        var failedTests = [];
         var tableElement = $(section).next();
-        var testElementList = tableElement.find("span.hoverable");
+        var testElementList = tableElement.find(".testWithDetails");
 
         // create each failed test text
-        var failedTests = [];
-        $(testElementList).each(function(){
+        testElementList.each(function(){
             failedTests.push($(this).text());
         });
 
@@ -41,16 +40,17 @@ $(function(){
 
     var buildTestPlaylist = function(){
         console.log("TC-ext: tcPage.js - building test playlist");
-
-        var sectionsSelector = "#tst_group_build_failRefreshInner .group-name";
+        var sectionsSelector = "#tst_group_build_fail .group-name"; // selects the sections of tests per folder inside the failed tests section 
         var playlistText = "";
-        playlistText += '<Playlist Version="1.0">\r\n';
-        
-        $(sectionsSelector).each(function(){
+        playlistText += '<Playlist Version="1.24234">\r\n';
 
-            var pathElement = this;
-            var sectionPath = getSectionPath(pathElement);
-            var failedTestSet = getFailedTestSet(pathElement);
+        var elementList = $(sectionsSelector);
+        debugger;
+        elementList.each(function(){
+
+            var element = this;
+            var sectionPath = getSectionPath(element);
+            var failedTestSet = getFailedTestSet(element);
 
             failedTestSet.forEach(function(failedTest){
                 playlistText += '<Add Test="'; //todo: make this configurable
